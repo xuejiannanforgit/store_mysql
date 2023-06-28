@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfphotoMapper">
+
+    <resultMap id="PhotoMap" type="cn.ztejjx.memberstore.domain.mysql.photoclass" >
+        <id column="photoclass_Id" property="photoclassId" jdbcType="VARCHAR" />
+        <result column="photoclass_Name" property="photoclassName" jdbcType="VARCHAR" />
+        <result column="photoclass_Url" property="photoclassUrl" jdbcType="VARCHAR" />
+
+        <collection property="photoalbumList" ofType="cn.ztejjx.memberstore.domain.mysql.photoalbum">
+            <id column="photoalbum_Id"   property="photoalbumId"  jdbcType="VARCHAR" />
+            <result column="photo_Name" property="photoName" jdbcType="VARCHAR" />
+            <result column="photo_Url" property="photoUrl"  jdbcType="VARCHAR" />
+            <result column="photo_Explanation" property="photoExplanation"  jdbcType="VARCHAR" />
+            <result column="sort_Order" property="sortOrder"  jdbcType="VARCHAR" />
+        </collection>
+
+    </resultMap>
+
+    <select id="findAllphoto" resultMap="PhotoMap">
+        select
+        c.photoclass_Id,
+        c.photoclass_Name,
+        c.photoclass_Url,
+        b.photoalbum_Id,
+        b.photo_Name,
+        b.photo_Url,
+        b.photo_Explanation,
+        b.sort_Order
+        from photoclass c left join photoalbum b on c.photoclass_Id = b.photoclass_Id  where  c.enabled_Flag =1 and  b.enabled_Flag =1    ORDER by c.sort_Order ,b.sort_Order;
+    </select>
+
+</mapper>
+

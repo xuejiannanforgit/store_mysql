@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfprojectsMapper">
+    <resultMap id="projectsMap" type="cn.ztejjx.memberstore.domain.mysql.projectsclass" >
+        <id column="projectsclass_Id" property="projectsclassId" jdbcType="VARCHAR" />
+        <result column="projectsclass_Name" property="projectsclassName" jdbcType="VARCHAR" />
+        <result column="projectssubclass_Name" property="projectssubclassName" jdbcType="VARCHAR" />
+        <result column="showflag" property="showflag" jdbcType="BOOLEAN" />
+        <collection property="projectsitemlist" ofType="cn.ztejjx.memberstore.domain.mysql.projectsitem">
+            <id column="projectsitem_Id"   property="projectsitemId"  jdbcType="VARCHAR" />
+            <result column="projectsitem_Name" property="projectsitemName" jdbcType="VARCHAR" />
+        <collection property="projectsintroductionlist" ofType="cn.ztejjx.memberstore.domain.mysql.projectsintroduction">
+            <id column="projectsintroduction_Id"   property="projectsintroductionId"  jdbcType="VARCHAR" />
+            <result column="projectsintroduction_Type" property="projectsintroductionType" jdbcType="VARCHAR" />
+            <result column="drive_Note" property="driveNote" jdbcType="VARCHAR" />
+            <result column="drive_Content" property="driveContent" jdbcType="VARCHAR" />
+            <result column="drive_Process" property="driveProcess" jdbcType="VARCHAR" />
+            <result column="drive_Examnote" property="driveExamnote" jdbcType="VARCHAR" />
+            <result column="application_Fee" property="applicationFee" jdbcType="VARCHAR" />
+            <result column="application_Feetype" property="applicationFeetype" jdbcType="VARCHAR" />
+            <result column="training_Days" property="trainingDays" jdbcType="VARCHAR" />
+            <result column="exam_Days" property="examDays" jdbcType="VARCHAR" />
+            <result column="lodging" property="lodging" jdbcType="VARCHAR" />
+            <result column="document_Type" property="documentType" jdbcType="VARCHAR" />
+            <result column="note" property="note" jdbcType="VARCHAR" />
+            <result column="remark" property="remark" jdbcType="VARCHAR" />
+        </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findProjects" resultMap="projectsMap">
+        select
+        c.projectsclass_Id,
+        c.projectsclass_Name,
+        c.projectssubclass_Name,
+        c.showflag,
+        b.projectsitem_Id,
+        b.projectsitem_Name,
+        e.projectsintroduction_Id,
+        e.projectsintroduction_Type,
+        e.drive_Note,
+        e.drive_Content,
+        e.drive_Process,
+        e.drive_Examnote,
+        e.application_Fee,
+        e.application_Feetype,
+        e.training_Days,
+        e.exam_Days,
+        e.lodging,
+        e.note,
+        e.remark
+        from projectsclass c left join projectsitem b on c.projectsclass_Id = b.projectsclass_Id  left join projectsintroduction e on b.projectsitem_Id = e.projectsitem_Id
+        where  c.enabled_Flag =1 and  b.enabled_Flag =1 ORDER by c.sort_Order ,b.sort_Order;
+    </select>
+
+
+    <select id="findProjectsByprojectsclassId" resultMap="projectsMap">
+        select
+        c.projectsclass_Id,
+        c.projectsclass_Name,
+        c.projectssubclass_Name,
+        c.showflag,
+        b.projectsitem_Id,
+        b.projectsitem_Name,
+        e.projectsintroduction_Id,
+        e.projectsintroduction_Type,
+        e.drive_Note,
+        e.drive_Content,
+        e.drive_Process,
+        e.drive_Examnote,
+        e.application_Fee,
+        e.application_Feetype,
+        e.training_Days,
+        e.exam_Days,
+        e.lodging,
+        e.note,
+        e.remark
+        from projectsclass c left join projectsitem b on c.projectsclass_Id = b.projectsclass_Id  left join projectsintroduction e on b.projectsitem_Id = e.projectsitem_Id
+        where  c.enabled_Flag =1 and  b.enabled_Flag =1 and c.projectsclass_Id = #{projectsclassId}  ORDER by c.sort_Order ,b.sort_Order;
+    </select>
+
+</mapper>
+

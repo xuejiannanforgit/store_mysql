@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.SelfConfigProductClassifyMapper">
+    <resultMap id="ProductClassAndBrandsMap" type="cn.ztejjx.memberstore.domain.redis.SelfConfigProductClassify" >
+        <id column="product_classIfyId" property="productClassifyid" jdbcType="VARCHAR" />
+        <result column="product_classIfyName" property="productClassifyname" jdbcType="VARCHAR" />
+        <collection property="productBrandsList" ofType="cn.ztejjx.memberstore.domain.mysql.configProductBrands">
+            <id property="productBrandsid" column="product_brandsId"/>
+            <result  property="productBrandsname"  column="product_brandsName"/>
+            <result  property="productBrandsimage" column="product_brandsImage"/>
+            <result column="product_fullbrandsName" property="productFullbrandsname" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
+    <select id="findProductList" resultMap="ProductClassAndBrandsMap">
+        select
+        c.product_classIfyId,
+        c.product_classIfyName,
+        b.product_brandsId,
+        b.product_brandsName,
+        b.product_brandsImage,
+        b.product_fullbrandsName
+        from config_product_classify c left join config_product_brands b on c.product_classIfyId = b.product_ClassIfyId  where  c.enabled_flag =1 and  b.enabled_flag =1  ORDER by c.sort_order ,b.sort_order;
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfmemberIntegralMapper">
+    <select id="countMemberIntegral"  resultType="integer"    >
+         select sum(integral_Num) from memberintegral where  enabled_Flag = 1 and   member_Id =#{memberId} ;
+    </select>
+
+    <select id="findAllMemberId"  resultType="String">
+        select DISTINCT(member_Id) from memberintegral where  enabled_Flag = 1  ;
+    </select>
+
+
+
+    <resultMap id="BaseResultMap" type="cn.ztejjx.memberstore.domain.mysql.memberIntegral" >
+        <id column="integral_Id" property="integralId" jdbcType="VARCHAR" />
+        <result column="integral_Type" property="integralType" jdbcType="VARCHAR" />
+        <result column="integral_Num" property="integralNum" jdbcType="DECIMAL" />
+        <result column="member_Id" property="memberId" jdbcType="VARCHAR" />
+        <result column="member_Name" property="memberName" jdbcType="VARCHAR" />
+        <result column="member_Phone" property="memberPhone" jdbcType="VARCHAR" />
+        <result column="addintegral_Reason" property="addintegralReason" jdbcType="VARCHAR" />
+        <result column="application_Items" property="applicationItems" jdbcType="VARCHAR" />
+        <result column="order_Id" property="orderId" jdbcType="VARCHAR" />
+       </resultMap>
+
+
+    <select id="findMemberIntegral" resultMap="BaseResultMap">
+        select
+        c.integral_Id,
+        c.integral_Type,
+        c.integral_Num,
+        c.member_Id,
+        c.member_Name,
+        c.member_Phone,
+        c.addintegral_Reason,
+        c.application_Items,
+        c.order_Id
+        from memberintegral c    where   c.member_Id = #{memberId} and   c.enabled_Flag =1    order by c.created_Date desc LIMIT  #{currPage},#{pageSize};
+    </select>
+
+</mapper>
+

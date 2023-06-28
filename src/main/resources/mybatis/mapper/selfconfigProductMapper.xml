@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfconfigProductMapper">
+    <resultMap id="configProductList" type="cn.ztejjx.memberstore.domain.mysql.configProduct">
+        <id column="product_Id" property="productId" jdbcType="VARCHAR" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="retail_price" property="retailPrice" jdbcType="DECIMAL" />
+        <result column="product_num" property="productNum" jdbcType="DECIMAL" />
+        <result column="product_coverimg" property="productCoverimg" jdbcType="VARCHAR" />
+        <result column="num" property="num" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="findConfigProduct" resultMap="configProductList">
+        select
+        c.product_Id,
+        c.product_name,
+        c.retail_price,
+        c.product_num,
+        c.product_coverimg,
+        c.num
+        from config_product c  where  c.enabled_flag =1    order by c.sort_order desc LIMIT  #{currPage},#{pageSize};
+    </select>
+
+
+
+    <resultMap id="configProductAllInfoList" type="cn.ztejjx.memberstore.domain.mysql.configProduct">
+            <id column="product_Id" property="productId" jdbcType="VARCHAR" />
+            <result column="product_brandsId" property="productBrandsid" jdbcType="VARCHAR" />
+            <result column="product_classIfyId" property="productClassifyid" jdbcType="VARCHAR" />
+            <result column="product_name" property="productName" jdbcType="VARCHAR" />
+            <result column="product_specification" property="productSpecification" jdbcType="VARCHAR" />
+            <result column="product_unit" property="productUnit" jdbcType="VARCHAR" />
+            <result column="retail_price" property="retailPrice" jdbcType="DECIMAL" />
+            <result column="club_price" property="clubPrice" jdbcType="DECIMAL" />
+            <result column="cost_price" property="costPrice" jdbcType="DECIMAL" />
+            <result column="product_num" property="productNum" jdbcType="DECIMAL" />
+            <result column="product_barcode" property="productBarcode" jdbcType="VARCHAR" />
+            <result column="product_sales" property="productSales" jdbcType="INTEGER" />
+            <result column="expiration" property="expiration" jdbcType="INTEGER" />
+            <result column="product_coverimg" property="productCoverimg" jdbcType="VARCHAR" />
+            <result column="num" property="num" jdbcType="INTEGER" />
+            <result column="product_description" property="productDescription" jdbcType="VARCHAR" />
+            <result column="product_brands" property="productBrands" jdbcType="VARCHAR" />
+            <result column="check_Product" property="checkProduct" jdbcType="INTEGER" />
+            <result column="product_classifyname" property="productClassifyname" jdbcType="VARCHAR" />
+            <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+            <result column="supplier_name" property="supplierName" jdbcType="INTEGER" />
+            <result column="belong_dept" property="belongDept" jdbcType="INTEGER" />
+            <result column="product_type" property="productType" jdbcType="INTEGER" />
+            <result column="coupon_price" property="couponPrice" jdbcType="INTEGER" />
+            <result column="use_dept" property="useDept" jdbcType="INTEGER" />
+            <result column="use_stdclass" property="useStdclass" jdbcType="INTEGER" />
+            <result column="use_applymodel" property="useApplymodel" jdbcType="INTEGER" />
+            <result column="start_date" property="startDate" jdbcType="INTEGER" />
+            <result column="end_start" property="endStart" jdbcType="INTEGER" />
+
+        <collection property="configProductImagelist" ofType="cn.ztejjx.memberstore.domain.mysql.configProductImage">
+            <id column="product_imageId" property="productImageid" jdbcType="VARCHAR" />
+             <result column="product_imageType" property="productImagetype" jdbcType="INTEGER" />
+            <result column="product_imageUrl" property="productImageurl" jdbcType="VARCHAR" />
+
+        </collection>
+
+    </resultMap>
+
+
+    <select id="findProductAllInfoByproductId" resultMap="configProductAllInfoList">
+        select
+        c.product_Id,
+        c.product_brandsId,
+        c.product_classIfyId,
+        c.product_name,
+        c.product_specification,
+        c.product_unit,
+        c.retail_price,
+        c.club_price,
+        c.cost_price,
+        c.product_num,
+        c.product_barcode,
+        c.product_sales,
+        c.expiration,
+        c.product_coverimg,
+        c.num,
+        c.product_description,
+        c.product_brands,
+        c.check_Product,
+        c.product_classifyname,
+        c.supplier_id,
+        c.supplier_name,
+        c.belong_dept,
+        c.product_type,
+        c.coupon_price,
+        c.use_dept,
+        c.use_stdclass,
+        c.use_applymodel,
+        c.start_date,
+        c.end_start,
+        i.product_imageId,
+        i.product_imageType,
+        i.product_imageUrl
+        from config_product c left join config_product_image i on c.product_Id = i.product_Id    where   c.product_Id = #{productId} and   c.enabled_flag =1  and use_flag =1
+    </select>
+
+
+    <resultMap id="ProductListMap" type="cn.ztejjx.memberstore.domain.mysql.configProduct" >
+        <id column="product_Id" property="productId" jdbcType="VARCHAR" />
+        <result column="product_brandsId" property="productBrandsid" jdbcType="VARCHAR" />
+        <result column="product_classIfyId" property="productClassifyid" jdbcType="VARCHAR" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_specification" property="productSpecification" jdbcType="VARCHAR" />
+        <result column="product_unit" property="productUnit" jdbcType="VARCHAR" />
+        <result column="retail_price" property="retailPrice" jdbcType="DECIMAL" />
+        <result column="club_price" property="clubPrice" jdbcType="DECIMAL" />
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL" />
+        <result column="product_num" property="productNum" jdbcType="DECIMAL" />
+        <result column="product_barcode" property="productBarcode" jdbcType="VARCHAR" />
+        <result column="product_sales" property="productSales" jdbcType="INTEGER" />
+        <result column="expiration" property="expiration" jdbcType="INTEGER" />
+        <result column="product_coverimg" property="productCoverimg" jdbcType="VARCHAR" />
+        <result column="showflag" property="showflag" jdbcType="VARCHAR" />
+        <result column="num" property="num" jdbcType="INTEGER" />
+        <result column="product_description" property="productDescription" jdbcType="VARCHAR" />
+        <result column="product_brands" property="productBrands" jdbcType="VARCHAR" />
+        <result column="unfix_price" property="unfixPrice" jdbcType="INTEGER" />
+        <result column="check_Product" property="checkProduct" jdbcType="INTEGER" />
+        <result column="belong_dept" property="belongDept" jdbcType="INTEGER" />
+        <result column="product_type" property="productType" jdbcType="INTEGER" />
+        <result column="coupon_price" property="couponPrice" jdbcType="INTEGER" />
+        <result column="use_dept" property="useDept" jdbcType="INTEGER" />
+        <result column="use_stdclass" property="useStdclass" jdbcType="INTEGER" />
+        <result column="use_applymodel" property="useApplymodel" jdbcType="INTEGER" />
+        <result column="start_date" property="startDate" jdbcType="INTEGER" />
+        <result column="end_start" property="endStart" jdbcType="INTEGER" />
+
+
+        <collection property="productImagelist" ofType="cn.ztejjx.memberstore.domain.mysql.configProductImage">
+            <id column="product_imageId" property="productImageid" jdbcType="VARCHAR" />
+            <result column="product_imageType" property="productImagetype" jdbcType="INTEGER" />
+            <result column="product_imageUrl" property="productImageurl" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
+
+    <select id="findProductListBybrandsId" resultMap="ProductListMap">
+        select
+        c.product_Id,
+        c.product_brandsId,
+        c.product_classIfyId,
+        c.product_name,
+        c.product_specification,
+        c.product_unit,
+        c.retail_price,
+        c.club_price,
+        c.cost_price,
+        c.product_num,
+        c.product_barcode,
+        c.product_sales,
+        c.expiration,
+        c.product_coverimg,
+        c.showflag,
+        c.num,
+        c.product_description,
+        c.product_brands,
+        c.unfix_price,
+        c.check_Product,
+        c.belong_dept,
+        c.product_type,
+        c.coupon_price,
+        c.use_dept,
+        c.use_stdclass,
+        c.use_applymodel,
+        c.start_date,
+        c.end_start,
+        i.product_imageId,
+        i.product_imageType,
+        i.product_imageUrl
+        from config_product c left join config_product_image i on c.product_Id = i.product_Id  where c.platform_flag = 0 and c.enabled_flag =1 and use_flag =1 and  c.product_brandsId = #{productBrandsid};
+    </select>
+
+
+
+
+    <resultMap id="RecommendProduct" type="cn.ztejjx.memberstore.domain.mysql.configProduct">
+        <id column="product_Id" property="productId" jdbcType="VARCHAR" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="retail_price" property="retailPrice" jdbcType="DECIMAL" />
+        <result column="product_num" property="productNum" jdbcType="DECIMAL" />
+        <result column="product_coverimg" property="productCoverimg" jdbcType="VARCHAR" />
+        <result column="num" property="num" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="findRecommendProduct" resultMap="RecommendProduct">
+        select
+        c.product_Id,
+        c.product_name,
+        c.retail_price,
+        c.product_num,
+        c.product_coverimg,
+        c.num
+        from config_product c  where  c.enabled_flag =1   and recommended ='是' and recommended_dept is null;
+    </select>
+
+    <select id="findRecommendProductbyrecommendedDept" resultMap="RecommendProduct">
+        select
+        c.product_Id,
+        c.product_name,
+        c.retail_price,
+        c.product_num,
+        c.product_coverimg,
+        c.num
+        from config_product c  where  c.enabled_flag =1   and  c.recommended ='是' and recommended_dept = #{recommended_dept};
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>
+
+
+
+
+
+
+

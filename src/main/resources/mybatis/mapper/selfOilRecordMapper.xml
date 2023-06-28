@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfOilRecordMapper">
+
+    <resultMap id="BaseResultMap" type="cn.ztejjx.memberstore.domain.mysql.oilRecord" >
+        <id column="oilrecord_Id" property="oilrecordId" jdbcType="VARCHAR" />
+        <result column="employee_Name" property="employeeName" jdbcType="VARCHAR" />
+        <result column="employee_Phone" property="employeePhone" jdbcType="VARCHAR" />
+        <result column="employee_Dept" property="employeeDept" jdbcType="VARCHAR" />
+        <result column="oil_Class" property="oilClass" jdbcType="VARCHAR" />
+        <result column="application_Oilnum" property="applicationOilnum" jdbcType="DECIMAL" />
+        <result column="application_Oilamount" property="applicationOilamount" jdbcType="DECIMAL" />
+        <result column="actual_Oilnum" property="actualOilnum" jdbcType="DECIMAL" />
+        <result column="actual_Oilamount" property="actualOilamount" jdbcType="DECIMAL" />
+        <result column="photo" property="photo" jdbcType="VARCHAR" />
+        <result column="rest_Oilnum" property="restOilnum" jdbcType="DECIMAL" />
+        <result column="drawer" property="drawer" jdbcType="VARCHAR" />
+        <result column="drawer_Dept" property="drawerDept" jdbcType="VARCHAR" />
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+        <result column="vehicles_Type" property="vehiclesType" jdbcType="VARCHAR" />
+        <result column="license_Plate" property="licensePlate" jdbcType="VARCHAR" />
+        <result column="oilcard_Num" property="oilcardNum" jdbcType="VARCHAR" />
+        <result column="oil_Type" property="oilType" jdbcType="VARCHAR" />
+        <result column="oilprice" property="oilprice" jdbcType="DECIMAL" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="image_car" property="imageCar" jdbcType="VARCHAR" />
+        <result column="oilCardStation" property="oilcardstation" jdbcType="VARCHAR" />
+        <result column="oilCardAddr" property="oilcardaddr" jdbcType="VARCHAR" />
+        <result column="car_miles" property="carMiles" jdbcType="DECIMAL" />
+        <result column="makeout_Dept" property="makeoutDept" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="findOilrecordByDeptAndDate" resultMap="BaseResultMap">
+        select
+           c.oilrecord_Id,
+           c.employee_Name,
+           c.employee_Phone,
+           c.employee_Dept,
+           c.oil_Class,
+           c.application_Oilnum,
+           c.application_Oilamount,
+           c.actual_Oilnum,
+           c.actual_Oilamount,
+           c.photo,
+           c.rest_Oilnum,
+           c.drawer,
+           c.drawer_Dept,
+           c.created_date,
+           c.vehicles_Type,
+           c.license_Plate,
+           c.oilcard_Num,
+           c.oil_Type,
+           c.oilprice,
+           c.status,
+           c.image_car,
+           c.oilCardStation,
+           c.oilCardAddr,
+           c.car_miles,
+           c.makeout_Dept
+         from oil_record c  where  c.enabled_flag =1 and c.makeout_Dept = #{makeoutDept}  and    date_format(c.created_date,'%Y-%m-%d') =  #{applymodelDate}
+    </select>
+
+    <select id="countOilrecordByIdcard"  resultType="double">
+        select  sum(application_Oilnum) from oil_record c where employee_Idcard = #{idcard} and status in (0,1,3) and  vehicles_Type = #{vehiclesType} and  str_to_date(c.created_date,'%Y-%m-%d')    between #{startDate} and  #{endDate}
+    </select>
+
+
+    <select id="countOilrecordByIdcard2"  resultType="double">
+        select  sum(application_Oilnum) from oil_record c where employee_Idcard = #{idcard} and status in (0,1,3)  and  vehicles_Type = #{vehiclesType}  and  date_format(created_date,'%Y')    =  #{startDate}
+    </select>
+
+<!-- and status = 1   and   date_format(c.created_date,'%Y-%m-%d') >= #{startDate} and  #{endDate} >= date_format(c.created_date,'%Y-%m-%d')-->
+
+
+    <update id="updateoilRecordByoilrecordId" >
+        update oil_record set actual_Oilnum=#{actualOilNum},rest_Oilnum= #{restOilnum}  where oilrecord_Id = #{oilrecordId}
+    </update>
+
+    <update id="updateActualOilamountByoilrecordId" >
+        update oil_record set actual_Oilamount=#{actualOilamount},oilprice= #{oilprice}  where oilrecord_Id = #{oilrecordId}
+    </update>
+
+    <update id="updateOilRecordCompleteByoilrecordId" >
+        update oil_record set  status =3,complete_date= #{completeDate}  where oilrecord_Id = #{oilrecordId}
+    </update>
+
+
+
+
+    <!--,actual_Oilamount = #{actualOilamount}-->
+    <update id="updateoilRecordPhotoByOilrecordId" >
+        update oil_record set photo=#{photo} where oilrecord_Id = #{oilrecordId}
+    </update>
+
+    <update id="updatecarImageRecordPhotoByOilrecordId" >
+        update oil_record set image_car=#{photo} where oilrecord_Id = #{oilrecordId}
+    </update>
+
+
+    <update id="checkOilrecord" >
+        update oil_record set status=#{status},drawer=#{drawer},drawer_Date=#{drawerDate} where oilrecord_Id = #{oilrecordId}
+    </update>
+
+    <update id="updatecarMilesByoilrecordId" >
+        update oil_record set car_Miles=#{CarMiles} where oilrecord_Id = #{oilrecordId}
+    </update>
+
+
+
+
+</mapper>

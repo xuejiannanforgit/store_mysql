@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfluckydrawMapper">
+
+    <resultMap id="BaseResultMap" type="cn.ztejjx.memberstore.domain.mysql.luckydraw" >
+        <id column="prizes_Id" property="prizesId" jdbcType="VARCHAR" />
+        <result column="prizes_Name" property="prizesName" jdbcType="VARCHAR" />
+        <result column="prizes_Image" property="prizesImage" jdbcType="VARCHAR" />
+        <result column="draw_Flag" property="drawFlag" jdbcType="INTEGER" />
+        <result column="member_Id" property="memberId" jdbcType="VARCHAR" />
+        <result column="member_Name" property="memberName" jdbcType="VARCHAR" />
+        <result column="enabled_flag" property="enabledFlag" jdbcType="INTEGER" />
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+        <result column="prizes_code" property="prizesCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <update id="updateluckydrawFlag">
+        update luckydraw  set draw_Flag =  1,member_Id = #{memberId},member_Name=#{memberName} where prizes_Id = #{prizesId}
+    </update>
+
+
+    <select id="findluckydrawcountbyprizesId" resultType="int">
+         select count(*) from luckydraw where (prizes_Id = #{prizesId} and draw_Flag = 1) or (member_Id =#{memberId})
+    </select>
+
+
+
+    <select id="findluckydrawbyprizesId"  resultMap="BaseResultMap">
+        select * from luckydraw where prizes_Id = #{prizesId} and draw_Flag = 1
+    </select>
+
+
+
+</mapper>

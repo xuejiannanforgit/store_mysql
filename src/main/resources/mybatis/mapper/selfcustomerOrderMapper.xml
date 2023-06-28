@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfcustomerOrderMapper">
+
+    <resultMap id="OrderList" type="cn.ztejjx.memberstore.domain.mysql.customerOrder" >
+        <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+        <result column="customer_address" property="customerAddress" jdbcType="VARCHAR" />
+        <result column="customer_phone" property="customerPhone" jdbcType="VARCHAR" />
+        <result column="customer_Id" property="customerId" jdbcType="VARCHAR" />
+        <result column="integral_amount" property="integralAmount" jdbcType="DECIMAL" />
+        <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+        <result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="order_confirm_employeeId" property="orderConfirmEmployeeid" jdbcType="VARCHAR" />
+        <result column="order_confirm_employeeName" property="orderConfirmEmployeename" jdbcType="VARCHAR" />
+        <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+        <result column="order_title" property="orderTitle" jdbcType="VARCHAR" />
+        <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+        <result column="customer_dept" property="customerDept" jdbcType="VARCHAR" />
+        <result column="customer_integral" property="customerIntegral" jdbcType="DECIMAL" />
+        <result column="customer_integralbalance" property="customerIntegralbalance" jdbcType="DECIMAL" />
+        <collection property="customerOrderDetaillist" ofType="cn.ztejjx.memberstore.domain.mysql.customerOrderDetail">
+            <id column="order_detail_Id" property="orderDetailId" jdbcType="VARCHAR" />
+            <result column="product_Id" property="productId" jdbcType="VARCHAR" />
+            <result column="num" property="num" jdbcType="DECIMAL" />
+            <result column="costPrice" property="costprice" jdbcType="DECIMAL" />
+            <result column="clubPrice" property="clubprice" jdbcType="DECIMAL" />
+            <result column="retailPrice" property="retailprice" jdbcType="DECIMAL" />
+            <result column="sumretailPrice" property="sumretailprice" jdbcType="DECIMAL" />
+            <result column="sumcostPrice" property="sumcostprice" jdbcType="DECIMAL" />
+            <result column="supplierId" property="supplierid" jdbcType="VARCHAR" />
+            <result column="supplierName" property="suppliername" jdbcType="VARCHAR" />
+            <result column="productClassifyid" property="productclassifyid" jdbcType="VARCHAR" />
+            <result column="productSpecification" property="productspecification" jdbcType="VARCHAR" />
+            <result column="productBrandsid" property="productbrandsid" jdbcType="VARCHAR" />
+            <result column="productBrands" property="productbrands" jdbcType="VARCHAR" />
+            <result column="productUnit" property="productunit" jdbcType="VARCHAR" />
+            <result column="productName" property="productname" jdbcType="VARCHAR" />
+            <result column="productCoverimg" property="productcoverimg" jdbcType="VARCHAR" />
+            <result column="productBarcode" property="productbarcode" jdbcType="VARCHAR" />
+            <result column="order_confirm_employeeId" property="orderConfirmEmployeeid" jdbcType="VARCHAR" />
+            <result column="order_confirm_employeeName" property="orderConfirmEmployeename" jdbcType="VARCHAR" />
+            <result column="verification_code" property="verificationCode" jdbcType="VARCHAR" />
+            <result column="verification_code_url" property="verificationCodeUrl" jdbcType="VARCHAR" />
+            <result column="customer_dept" property="customerDept" jdbcType="VARCHAR" />
+            <result column="belong_dept" property="belongDept" jdbcType="VARCHAR" />
+            <result column="product_type" property="productType" jdbcType="VARCHAR" />
+            <result column="coupon_price" property="couponPrice" jdbcType="INTEGER" />
+            <result column="use_dept" property="useDept" jdbcType="VARCHAR" />
+            <result column="use_stdclass" property="useStdclass" jdbcType="VARCHAR" />
+            <result column="use_applymodel" property="useApplymodel" jdbcType="VARCHAR" />
+            <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+            <result column="end_start" property="endStart" jdbcType="TIMESTAMP" />
+            <result column="verification_status" property="verificationStatus" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
+    <select id="findOrderByMemberId" resultMap="OrderList">
+        select
+        c.order_id,
+        c.remark,
+        c.customer_name,
+        c.customer_address,
+        c.customer_phone,
+        c.customer_Id,
+        c.integral_amount,
+        c.order_num,
+        c.order_status,
+        c.pay_time,
+        c.order_confirm_employeeId,
+        c.order_confirm_employeeName,
+        c.pay_type,
+        c.order_title,
+        c.order_type,
+        c.customer_dept,
+        c.customer_integral,
+        c.customer_integralbalance,
+        d.order_detail_Id,
+        d.product_Id,
+        d.num,
+        d.costPrice,
+        d.clubPrice,
+        d.retailPrice,
+        d.sumretailPrice,
+        d.sumcostPrice,
+        d.supplierId,
+        d.supplierName,
+        d.productClassifyid,
+        d.productSpecification,
+        d.productBrandsid,
+        d.productBrands,
+        d.productUnit,
+        d.productName,
+        d.productCoverimg,
+        d.productBarcode,
+        d.order_confirm_employeeId,
+        d.order_confirm_employeeName,
+        d.verification_code,
+        d.verification_code_url,
+        d.customer_dept,
+        d.belong_dept,
+        d.product_type,
+        d.coupon_price,
+        d.use_dept,
+        d.use_stdclass,
+        d.use_applymodel,
+        d.start_date,
+        d.end_start,
+        d.verification_status
+        from customer_order c left join customer_order_detail d on c.order_id = d.order_id    where   c.customer_Id = #{memberId} and   c.enabled_flag =1 and d.verification_status='未使用' order by c.created_date desc;
+    </select>
+
+
+    <resultMap id="customerOrderList" type="cn.ztejjx.memberstore.domain.mysql.customerOrder" >
+        <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+        <result column="customer_address" property="customerAddress" jdbcType="VARCHAR" />
+        <result column="customer_phone" property="customerPhone" jdbcType="VARCHAR" />
+        <result column="customer_Id" property="customerId" jdbcType="VARCHAR" />
+        <result column="integral_amount" property="integralAmount" jdbcType="DECIMAL" />
+        <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+        <result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="order_confirm_employeeId" property="orderConfirmEmployeeid" jdbcType="VARCHAR" />
+        <result column="order_confirm_employeeName" property="orderConfirmEmployeename" jdbcType="VARCHAR" />
+        <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+        <result column="order_title" property="orderTitle" jdbcType="VARCHAR" />
+        <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+        <result column="customer_dept" property="customerDept" jdbcType="VARCHAR" />
+        <result column="customer_integral" property="customerIntegral" jdbcType="DECIMAL" />
+        <result column="customer_integralbalance" property="customerIntegralbalance" jdbcType="DECIMAL" />
+    </resultMap>
+
+
+    <select id="findPageOrderByMemberId" resultMap="customerOrderList">
+        select
+        c.order_id,
+        c.remark,
+        c.customer_name,
+        c.customer_address,
+        c.customer_phone,
+        c.customer_Id,
+        c.integral_amount,
+        c.order_num,
+        c.order_status,
+        c.pay_time,
+        c.order_confirm_employeeId,
+        c.order_confirm_employeeName,
+        c.pay_type,
+        c.order_title,
+        c.order_type,
+        c.customer_dept,
+        c.customer_integral,
+        c.customer_integralbalance
+        from customer_order c    where   c.customer_Id = #{memberId} and   c.enabled_flag =1    order by c.created_date desc LIMIT  #{currPage},#{pageSize};
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfmemberInfoMapper">
+
+        <resultMap id="BaseResultMap" type="cn.ztejjx.memberstore.domain.mysql.memberInfo" >
+            <result column="member_Name" property="memberName" jdbcType="VARCHAR" />
+            <result column="member_Dept" property="memberDept" jdbcType="VARCHAR" />
+            <result column="vote_Num" property="voteNum" jdbcType="INTEGER" />
+        </resultMap>
+
+
+
+    <select id="findAllMemberInfo" resultType="String">
+        select distinct(member_Id)  from memberinfo c  where  c.enabled_Flag =1 and c.member_Type='驾培学员' and c.member_Dept='总校';
+    </select>
+
+
+    <select id="findmemberInfoByVoteNum" resultMap="BaseResultMap">
+        select
+        c.member_Name,
+        c.member_Dept,
+        c.vote_Num
+        from memberinfo c  where  c.enabled_Flag =1  and vote_Num!=0   order by  c.vote_Num DESC   LIMIT  #{currIndex},#{Num};
+    </select>
+
+    <update id="updateVisitCount">
+        update memberinfo  set visit_Count =  visit_Count +1 where member_Id = #{memberId}
+    </update>
+
+    <update id="updateShareCount">
+        update memberinfo  set share_Count =  share_Count +1 where member_Id = #{memberId}
+    </update>
+
+    <update id="updateMemberIntegral">
+        update memberinfo  set member_Integral = #{Integral} where member_Id = #{memberId}
+    </update>
+
+
+
+    <update id="updateMemberInfoVoteNum">
+        update memberinfo  set vote_Num = #{voteNum} where member_Id = #{memberId}
+    </update>
+
+    <update id="updateMemberInfo" >
+        update memberinfo  c
+        <set>
+            <if test="memberImageurl != ''" >
+                c.member_Imageurl = #{memberImageurl},
+            </if>
+            <if test="wecharNumber != ''" >
+                c.wechar_Number = #{wecharNumber},
+            </if>
+            <if test="email != ''" >
+                c.email = #{email}
+            </if>
+        </set>
+        where c.member_Id = #{memberId}
+    </update>
+
+</mapper>

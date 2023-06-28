@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfvoteDetailMapper">
+    <resultMap id="BaseResultMap" type="cn.ztejjx.memberstore.domain.mysql.voteDetail" >
+        <id column="vote_id" property="voteId" jdbcType="VARCHAR" />
+        <result column="open_id" property="openId" jdbcType="VARCHAR" />
+        <result column="employee_Id" property="employeeId" jdbcType="VARCHAR" />
+        <result column="employee_Name" property="employeeName" jdbcType="VARCHAR" />
+        <result column="create_Date" property="createDate" jdbcType="DATE" />
+        <result column="enable_flag" property="enableFlag" jdbcType="INTEGER" />
+        <result column="employee_dept" property="employeeDept" jdbcType="VARCHAR" />
+        <result column="vote_image" property="voteImage" jdbcType="VARCHAR" />
+        <result column="vote_name" property="voteName" jdbcType="VARCHAR" />
+
+
+
+
+    </resultMap>
+
+    <select id="findVoteDetailCountByEmployeeId"  resultType="Integer">
+        select count(*) from vote_detail c  where  c.enable_flag =1  and c.employee_Id=#{employeeId} ;
+    </select>
+
+
+
+
+    <select id="validateVoteDetail" resultType="Integer">
+        select count(*)  from vote_detail c  where  date_format(c.create_Date,'%Y-%m-%d') = #{voteDate} and  c.employee_Id=#{employeeId} and  open_id = #{openId} and  c.enable_flag =1;
+    </select>
+
+    <select id="findopenIdVoteDetailByemployeeName"  resultType="String">
+          SELECT DISTINCT(open_id) FROM vote_detail e WHERE e.employee_Name=#{employeeName};
+    </select>
+
+
+
+
+
+
+
+</mapper>
+

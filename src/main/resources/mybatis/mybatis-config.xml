@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--驼峰命名规则映射-->
+    <!--<settings>-->
+        <!--<setting name="mapUnderscoreToCamelCase" value="true"/>-->
+        <!--&lt;!&ndash; 打印查询语句 &ndash;&gt;-->
+        <!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+        <!--&lt;!&ndash;延迟加载总开关&ndash;&gt;-->
+        <!--<setting name="lazyLoadingEnabled" value="true"/>-->
+        <!--&lt;!&ndash;将aggressiveLazyLoading设置为false表示按需加载，默认为true&ndash;&gt;-->
+        <!--<setting name="aggressiveLazyLoading" value="false"/>-->
+    <!--</settings>-->
+
+
+</configuration>

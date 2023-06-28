@@ -1,0 +1,80 @@
+server:
+  port: 8082
+
+spring:
+  redis:
+    host: cd-crs-ov35z0ws.sql.tencentcdb.com
+    port: 29119
+    password: ztejjxJXGL!@#$mm123
+    database: 1
+    timeout: 50000
+    jedis:
+      pool:
+        max-active: 500
+        min-idle: 0
+        max-idle: 500
+        max-wait: -1
+  datasource:
+    url: jdbc:mysql://cd-cdb-6giykmwy.sql.tencentcdb.com:61753/memberstore?characterEncoding=utf-8
+    username: root
+    password: ztejjxJXGL!@#$mm123
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5 #初始化时建立物理连接的个数
+      min-idle: 5 #最小连接池数量
+      max-active: 100 #最大连接池数量，like12 find bug,此值设得太小(如20) 高并发时会导致大量请求因等待连接池连接超时而处理失败(max-wait调小时) 推荐设置: 普通20 高并发100 最大200
+      max-wait: 5000 #获取连接时最大等待时间，单位毫秒,like12 find bug,此值不能设得太大(如60000),高并发时会导致系统卡死(大量线程一直挂起等待) 推荐设置: 普通60000 高并发5000
+      time-between-eviction-runs-millis: 60000 #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 300000 #配置一个连接在池中最小生存的时间，单位是毫秒
+      #Oracle模式
+      #validation-query: SELECT 1 FROM DUAL #用来检测连接是否有效的sql
+      #MySQL模式
+      validation-queryM: SELECT 1 #用来检测连接是否有效的sql
+      test-while-idle: true #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      test-on-borrow: false #申请连接时执行validationQuery检测连接是否有效，如果为true会降低性能
+      test-on-return: false #归还连接时执行validationQuery检测连接是否有效，如果为true会降低性能
+      pool-prepared-statements: true #打开PSCache，并且指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20  #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+      #like12 modified,jpa拦截dbms_random wall会拦截dbms_random,使得无法随机排序
+      #filters: stat,wall,slf4j #配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,slf4j #配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
+      #配置DruidStatFilter，用于采集web-jdbc关联监控的数据
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        #排除一些不必要的url过滤
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      #配置DruidStatViewServlet
+      stat-view-servlet:
+        url-pattern: "/druid/*"
+        #IP白名单(没有配置或者为空，则允许所有访问)
+        #allow: 127.0.0.1,192.168.1.106
+        #IP黑名单 (存在共同时，deny优先于allow)
+        #deny: 192.168.1.73
+        #禁用HTML页面上的“Reset All”功能
+        reset-enable: fasle
+        #可视化界面，登录名
+        login-username: admin
+        #可视化界面，登录密码
+        login-password: m123
+
+mybatis-plus:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.fruit.fruitstore.domain
+  global-config.db-config.id-type: auto
+  global-config.db-config.logic-delete-value: 1
+  global-config.db-config.logic-not-delete-value: 0
+
+# pagehelper配置
+pagehelper:
+  helper-dialect: mysql #指定分页数据库类型（方言）
+  reasonable: true #合理查询超过最大也，则查询最后一页 #是否启用分页合理化，当pagenum< 1显示第一页，当pagenum > pages显示最后一页
+  support-methods-arguments: true # 支持通过Mapper接口参数来传递分页参数，默认false
+  params: pacount=countSql # POJO或者Map中发现了countSql属性，就会作为count参数使用
+  returnPageInfo: check # always总是返回PageInfo类型,check检查返回类型是否为PageInfo,none返回Page
+
+redis_Expire: 2592000

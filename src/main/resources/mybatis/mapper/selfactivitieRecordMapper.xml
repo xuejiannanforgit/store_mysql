@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfactivitieRecordMapper">
+    <select id="validateCount" resultType="int">
+        select COUNT(*) from activitie_record where openId = #{openId} and share_openId = #{shareopenId} and activities_Id = #{activitiesId}
+    </select>
+
+
+    <select id="validateShareCount" resultType="int">
+        select COUNT(*) from activitie_record where share_openId = #{shareopenId} and activities_Id = #{activitiesId}
+    </select>
+</mapper>
+
+

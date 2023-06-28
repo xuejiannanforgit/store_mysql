@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ztejjx.memberstore.mapper.mysql.selfshareMapper">
+    <resultMap id="shareimageList" type="cn.ztejjx.memberstore.domain.mysql.share">
+        <id column="share_Id" property="shareId" jdbcType="VARCHAR" />
+        <result column="nick_Name" property="nickName" jdbcType="VARCHAR" />
+        <result column="avater_Url" property="avaterUrl" jdbcType="VARCHAR" />
+        <result column="share_Content" property="shareContent" jdbcType="VARCHAR" />
+        <result column="created_date" property="createdDate" jdbcType="DATE" />
+
+        <collection property="shareimagelist" ofType="cn.ztejjx.memberstore.domain.mysql.shareimage">
+            <id column="shareimage_Id" property="shareimageId" jdbcType="VARCHAR" />
+            <result column="image_Url" property="imageUrl" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
+
+
+    <select id="findShareInfo" resultMap="shareimageList">
+        select
+        c.share_Id,
+        c.nick_Name,
+        c.avater_Url,
+        c.share_Content,
+        c.created_date,
+        i.shareimage_Id,
+        i.image_Url
+        from share c left join shareimage i on c.share_Id = i.share_Id  where  c.enabled_flag =1  and c.coach_Id=#{coachId} order by c.created_date desc LIMIT  #{currIndex},#{pageSize};
+    </select>
+
+
+
+
+
+
+
+</mapper>
